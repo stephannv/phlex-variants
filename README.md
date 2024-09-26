@@ -30,7 +30,7 @@ gem install phlex-variants
 ```
 
 > [!TIP]
-> If you prefer not to add another dependency to your project, you can simply copy the [Phlex::Variants](https://github.com/stephannv/phlex-variant/blob/main/lib/phlex/variants.rb) file into your project.
+> If you prefer not to add another dependency to your project, you can simply copy the [Phlex::Variants](https://github.com/stephannv/phlex-variants/blob/main/lib/phlex/variants.rb) file into your project.
 
 
 ## Usage
@@ -66,7 +66,7 @@ class Button < Phlex::HTML
     defaults color: :default, size: :md
   end
 
-  attr_reader :color, :size, :outline, :full
+  attr_reader :color, :size, :outline
 
   def initialize(color: nil, size: nil, outline: nil)
     @color = color
