@@ -142,7 +142,7 @@ RSpec.describe Phlex::Variants do
     expect(actual_html).to eq expected_html
   end
 
-  it "raises error with non existent variants" do
+  it "raises error with non existent options" do
     example = phlex_class do
       style do
         variants do
@@ -150,17 +150,25 @@ RSpec.describe Phlex::Variants do
             primary "btn-primary"
             danger "btn-danger"
           end
+
+          size do
+            sm "btn-sm"
+            md "btn-md"
+          end
         end
       end
     end
 
+    missing_option = "Option :warning for :color variant doesn't exist. Valid options are: [:primary, :danger]"
+    missing_variant = "Variant :disabled doesn't exist. Available variants are: [:color, :size]"
+
     expect do
       example.build_style(color: :warning)
-    end.to raise_error(Phlex::Variants::VariantNotFoundError, "Variant `color: :warning` doesn't exist")
+    end.to raise_error(Phlex::Variants::VariantNotFoundError, missing_option)
 
     expect do
       example.build_style(disabled: true)
-    end.to raise_error(Phlex::Variants::VariantNotFoundError, "Variant `disabled: true` doesn't exist")
+    end.to raise_error(Phlex::Variants::VariantNotFoundError, missing_variant)
   end
 
   it "allows defining boolean variants" do
