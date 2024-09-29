@@ -37,6 +37,9 @@ module Phlex
             value = options[option]
 
             next value if value
+
+            # doesn't raise error when passing false for variant with only true/:yes option
+            next if option == false && options.has_key?(true)
           end
 
           raise_variant_not_found_error(options, variant, option)

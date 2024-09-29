@@ -199,6 +199,20 @@ RSpec.describe Phlex::Variants do
     expect(example.build_style(loading: :yes, full: :no)).to eq "btn-loading btn-fit"
   end
 
+  it "doesn't raise error when passing false for a variant with only true/:yes options" do
+    example = phlex_class do
+      style do
+        variants do
+          outline do
+            yes "btn-outline"
+          end
+        end
+      end
+    end
+
+    expect(example.build_style(outline: false)).to eq ""
+  end
+
   it "ignores nil variants" do
     example = phlex_class do
       style do
