@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    phlex-variants (0.1.0)
+    phlex-variants (0.2.0)
       phlex (>= 1.9, < 3)
 
 GEM
