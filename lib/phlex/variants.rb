@@ -39,8 +39,18 @@ module Phlex
             next value if value
           end
 
-          raise VariantNotFoundError, "Variant `#{variant}: #{option.inspect}` doesn't exist"
+          raise_variant_not_found_error(options, variant, option)
         end
+      end
+
+      def raise_variant_not_found_error(options, variant, option)
+        message = if options
+          "Option #{option.inspect} for #{variant.inspect} variant doesn't exist. Valid options are: #{options.keys}"
+        else
+          "Variant #{variant.inspect} doesn't exist. Available variants are: #{self::STYLE_VARIANTS.keys}"
+        end
+
+        raise VariantNotFoundError, message
       end
     end
 
