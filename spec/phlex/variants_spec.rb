@@ -245,6 +245,20 @@ RSpec.describe Phlex::Variants do
     expect(actual_classes).to eq expected_classes
   end
 
+  it "explains propery when calling undefined method from StyleBuilder" do
+    msg = "undefined method 'color' for an instance of Phlex::Variants::StyleBuilder. The available methods are: 'base', 'variants' and 'defaults'"
+
+    expect do
+      phlex_class do
+        style do
+          color do
+            red "bg-red-200 hover:bg-red-400"
+          end
+        end
+      end
+    end.to raise_error(NoMethodError, msg)
+  end
+
   def phlex_class(&)
     Class.new(Phlex::HTML) do
       include Phlex::Variants

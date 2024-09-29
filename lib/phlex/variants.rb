@@ -82,6 +82,11 @@ module Phlex
       def defaults(**variants)
         view_class::STYLE_DEFAULTS.merge!(variants)
       end
+
+      def method_missing(method, *args, &) # standard:disable Style/MissingRespondToMissing
+        message = "undefined method '#{method}' for an instance of Phlex::Variants::StyleBuilder. The available methods are: 'base', 'variants' and 'defaults'"
+        raise NoMethodError, message
+      end
     end
 
     # @api private
