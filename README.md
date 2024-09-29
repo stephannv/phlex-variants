@@ -119,6 +119,74 @@ build_style(color: :primary, extra_classes: "disabled:hidden")
 # => "btn btn-danger btn-xs disabled:hidden"
 ```
 
+#### Generated constants
+The following code:
+```ruby
+style do
+  base "btn"
+
+  variants do
+    color do
+      default "btn-default"
+      primary "btn-primary"
+      danger "btn-danger"
+    end
+
+    size do
+      xs "btn-xs"
+      md "btn-md"
+      lg "btn-lg"
+    end
+
+    outline do
+      yes "btn-outline"
+    end
+  end
+
+  defaults color: :default, size: :md
+end
+```
+Will generate the following constants in your view class:
+```ruby
+STYLE_BASE = "btn"
+STYLE_VARIANTS = {
+  color: {
+    default: "btn-default",
+    primary: "btn-primary",
+    danger: "btn-danger"
+  },
+  size: {
+    xs: "btn-xs",
+    md: "btn-md",
+    lg: "btn-lg"
+  },
+  outline: {
+    true => "btn-outline"
+  }
+}
+STYLE_DEFAULTS = { color: :default, size: :md }
+```
+
+For example, if you're creating Lookbook previews, you can do something like this:
+```ruby
+class ButtonPreview < Lookbook::Preview
+  # @param color select :color_options
+  def playground(color: nil)
+    render Button.new(color:)
+  end
+
+  private
+
+  def color_options
+    {
+      choices: Button::STYLE_VARIANTS[:color].keys,
+      include_blank: "default",
+      value_type: "Symbol"
+    }
+  end
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
