@@ -38,7 +38,7 @@ module Phlex
 
             next value if value
 
-            # doesn't raise error when passing false for variant with only true/:yes option
+            # doesn't raise error when passing false for variant with only true option
             next if option == false && options.has_key?(true)
           end
 
@@ -138,12 +138,13 @@ module Phlex
 
       def method_missing(name, *args) # standard:disable Style/MissingRespondToMissing
         option = name.to_sym
-        view_class::STYLE_VARIANTS[variant_name][option] = args
 
         if option == :yes
           view_class::STYLE_VARIANTS[variant_name][true] = args
         elsif option == :no
           view_class::STYLE_VARIANTS[variant_name][false] = args
+        else
+          view_class::STYLE_VARIANTS[variant_name][option] = args
         end
       end
     end

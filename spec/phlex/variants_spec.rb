@@ -196,13 +196,20 @@ RSpec.describe Phlex::Variants do
 
     expect(example.build_style).to eq "btn-normal"
     expect(example.build_style(outline: true, full: false)).to eq "btn-normal btn-outline btn-fit"
-    expect(example.build_style(loading: :yes, full: :no)).to eq "btn-loading btn-fit"
+
+    expect do
+      example.build_style(loading: :yes)
+    end.to raise_error("Option :yes for :loading variant doesn't exist. Valid options are: [true, false]")
   end
 
-  it "doesn't raise error when passing false for a variant with only true/:yes options" do
+  it "doesn't raise error when passing false for a boolean variant without 'false' option" do
     example = phlex_class do
       style do
         variants do
+          color do
+            red "btn-red"
+          end
+
           outline do
             yes "btn-outline"
           end
@@ -211,6 +218,10 @@ RSpec.describe Phlex::Variants do
     end
 
     expect(example.build_style(outline: false)).to eq ""
+
+    expect do
+      example.build_style(color: false)
+    end.to raise_error("Option false for :color variant doesn't exist. Valid options are: [:red]")
   end
 
   it "ignores nil variants" do
