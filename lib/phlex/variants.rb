@@ -27,14 +27,19 @@ module Phlex
 
       # @api private
       def build_variants_style(variants)
-        self::STYLE_DEFAULTS.merge(variants.compact).map do |variant, option|
-          value = self::STYLE_VARIANTS.dig(variant, option)
+        variants = variants.compact
+        variants = self::STYLE_DEFAULTS.merge(variants) unless self::STYLE_DEFAULTS.empty?
 
-          if value.nil?
-            raise VariantNotFoundError, "Variant `#{variant}: #{option.inspect}` doesn't exist"
+        variants.map do |variant, option|
+          options = self::STYLE_VARIANTS[variant]
+
+          if options
+            value = options[option]
+
+            next value if value
           end
 
-          value
+          raise VariantNotFoundError, "Variant `#{variant}: #{option.inspect}` doesn't exist"
         end
       end
     end
