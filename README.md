@@ -1,5 +1,35 @@
-> [!WARNING]
-> Please note that Phlex::Variants is currently under development and may undergo changes to its API before reaching the stable release (1.0.0). As a result, there may be breaking changes that affect its usage.
+> [!CAUTION]
+> Please note that Phlex::Variants is not in active development. You should try https://github.com/avo-hq/class_variants or implement it yourself, eg. Using [Literal](https://literal.fun/) gem:
+>
+> ```ruby
+> class ButtonSize < Literal::Enum(Symbol)
+>   prop :classes, String
+> 
+>   Xs = new(:xs, classes: "btn-xs")
+>   Lg = new(:lg, classes: "btn-lg")
+> end
+> 
+> class ButtonColor < Literal::Enum(Symbol)
+>   prop :classes, String
+> 
+>   Primary = new(:primary, classes: "btn-primary")
+>   Danger = new(:danager, classes: "btn-danger")
+> end
+> 
+> class Button < Phlex::HTML
+>   extend Literal::Properties
+>   
+>   prop :size, ButtonSize, &ButtonSize
+>   prop :color, ButtonColor, default: :primary, &ButtonColor
+>   
+>   def view_template(&)
+>     button(class: ["btn", @size.classes, @color.classes], &)
+>   end
+> end
+> 
+> Button(size: :lg) { "Hello" }
+> # => "<button class="btn btn-lg btn-primary">Hello</button>"
+> ```
 
 # Phlex::Variants
 [![CI](https://github.com/stephannv/phlex-variants/actions/workflows/main.yml/badge.svg)](https://github.com/stephannv/phlex-variants/actions/workflows/main.yml)
